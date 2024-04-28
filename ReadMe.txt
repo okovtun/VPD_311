@@ -1,5 +1,6 @@
 ﻿https://github.com/okovtun/VPD_311.git
 https://www.youtube.com/playlist?list=PLeqyOOqxeiIPsB74OvAMwaJ19mKMGE6h2
+https://chat.whatsapp.com/KclR3Z42AVuFzvOw58F5Se
 
 TODO:
 0. Выучить теорию!!!!!!!!
