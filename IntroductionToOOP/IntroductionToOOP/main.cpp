@@ -71,6 +71,27 @@ public:
 		return *this;
 	}
 
+	Point& operator++()	//Prefix increment
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point operator++(int)//Suffix increment
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
+	Point& operator()(double x, double y)
+	{
+		//Function-call operator
+		set_x(x);
+		set_y(y);
+		return *this;
+	}
+
 	//				Methods
 	double distance(const Point& other)const
 	{
@@ -95,10 +116,43 @@ double distance(const Point& A, const Point& B)
 	return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
+bool operator==(const Point& left, const Point& right)
+{
+	/*if (left.get_x() == right.get_x() && left.get_y() == right.get_y())
+		return true;
+	else
+		return false;*/
+	return left.get_x() == right.get_x() && left.get_y() == right.get_y();
+}
+
+std::ostream& operator<<(std::ostream& os, const Point& obj)
+{
+	return os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
+}
+std::istream& operator>>(std::istream& is, Point& obj)
+{
+	double x, y;
+	is >> x >> y;
+	/*obj.set_x(x);
+	obj.set_y(y);*/
+	obj(x, y);
+	return is;
+}
+
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define LIFETIME
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_CHECK
+//#define OPERATORS_CHECK
 
 void main()
 {
@@ -167,10 +221,11 @@ void main()
 	D.print();
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef ASSIGNMENT_CHECK
 	//Point A(2, 3);
-	////Point B = A;	//CopyConstructor
-	//Point B;
-	//B = A;			//CopyAssignment
+////Point B = A;	//CopyConstructor
+//Point B;
+//B = A;			//CopyAssignment
 
 	int a, b, c;
 	a = b = c = 0;
@@ -184,6 +239,29 @@ void main()
 	/*
 	Point(2, 3);здесь явно вызывается конструктор, и создается временный безымянный объект.
 	*/
+#endif // ASSIGNMENT_CHECK
+
+#ifdef OPERATORS_CHECK
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	A.print();
+	B.print();
+	C.print();
+	Point D = ++C;
+	C.print();
+	D.print();
+
+	cout << (C == D) << endl;
+#endif // OPERATORS_CHECK
+
+	Point A(2, 3);
+	cout << "Введите координаты точки: "; cin >> A;
+	cout << A << endl;
 }
 
 /*
@@ -225,5 +303,33 @@ void main()
 	-Конструктор переноса;
 2. ~Destructor - это метод, который уничтожает объект по истечении его времени жизни;
 3. CopyAssignment; Memory leak
+-------------------------------------------------------------
+*/
+
+/*
+-------------------------------------------------------------
+			OPERATORS OVERLOADING RULES
+1. Перегрузить можно только существующие операторы.
+	'+'  - перегружается;
+	'++' - перегружается;
+	'%'  - перегружается;
+	'%%' - НЕ перегружается;
+2. НЕ все существующие операторы можно перегрузить.
+   НЕ перегружаются:
+	?: - Conditional Ternary Operator;
+	:: - Scope operator (Оператор разрешения видимости);
+	.  - Point operator (Оператор прямого доступа);
+	.* - Pointer to member selection;
+	#  - Preprocessor conver to string;
+	## - Preprocessor concatenate;
+3. Перегруженные операторы сохраняют приоритет;
+4. Переопределить поведение операторов над всроенными типами данных невозможно;
+-------------------------------------------------------------
+		type operator@(parameters)
+		{
+			....;
+			group-of-statements;
+			....;
+		}
 -------------------------------------------------------------
 */
