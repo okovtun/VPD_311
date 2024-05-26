@@ -3,7 +3,7 @@ https://www.youtube.com/playlist?list=PLeqyOOqxeiIPsB74OvAMwaJ19mKMGE6h2
 https://chat.whatsapp.com/KclR3Z42AVuFzvOw58F5Se
 
 TODO:
-1. Проверочный код в секции 'HOME_WORK' должен заработать:
+1. Проверочный код в секции 'HOME_WORK' должен заработать:	DONE
 	https://github.com/okovtun/VPD_311/blob/bfa6de5a9f801af9dcacf460a294fb7683292769/IntroductionToOOP/Fraction/main.cpp#L413
 2. В Solution 'IntroductionToOOP' добавить проект 'String', и в нем реализовать класс 'String'.
    Проверочный код:
