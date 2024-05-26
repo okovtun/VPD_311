@@ -23,36 +23,36 @@ public:
 	}
 
 	//				Constructors:
-	explicit String(int size = 80)
+	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;
+		//this->str = new char[size] {};
 		for (int i = 0; str[i]; i++)this->str[i] = str[i];
 		cout << "Constructor:\t\t" << this << endl;
 	}
 	//The rule of zero - !CopyConstructor, !CopyAssignment и !Destructor;
 	//The rule of three - CopyConstructor, CopyAssignment и Destructor;
-	String(const String& other)
+	String(const String& other) :size(other.size), str(new char[size] {})
 	{
-		this->size = other.size;
+		//this->size = other.size;
 		//Deep copy - побитовое копирование:
 		//1) Выделяем новую память:
-		this->str = new char[size] {};
+		//this->str = new char[size] {};
 		//2) Копируем содержимое этой памяти из другого объекта:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other):size(other.size), str(other.str)
 	{
 		//Shallow copy:
-		this->size = other.size;
-		this->str = other.str;	//shallow copy
+		//this->size = other.size;
+		//this->str = other.str;	//shallow copy
 		//MoveConstructor должен работать так, как НЕ должен работать CopyConstrcutor
 		//После копирования удаляемый объект обязательно нужно обнулить:
 		other.str = nullptr;
