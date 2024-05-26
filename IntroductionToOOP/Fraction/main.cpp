@@ -54,6 +54,15 @@ public:
 		this->denominator = 1;
 		cout << "1ArgConstructor:\t" << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		decimal += 1e-10;
+		integer = decimal;	//сохраняем целую часть
+		denominator = 1e+9;	//'int' позволяет полноценно использовать только 9 десятичных разрядов
+		decimal -= integer; //убираем целую часть из десятичной дроби
+		numerator = decimal * denominator;
+		reduce();
+	}
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -119,6 +128,10 @@ public:
 	explicit operator int()
 	{
 		return integer;
+	}
+	operator double()
+	{
+		return integer + (double)numerator / denominator;
 	}
 
 	//			Methods:
@@ -415,7 +428,7 @@ void main()
 	double a = A;
 	cout << A << " = " << a << endl;
 
-	Fraction B = 2.75;
+	Fraction B = 3.845;
 	cout << B << endl;
 #endif // HOME_WORK
 
