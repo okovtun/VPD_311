@@ -25,36 +25,19 @@ public:
 	//				Constructors:
 	explicit String(int size = 80) :size(size), str(new char[size] {})
 	{
-		//this->size = size;
-		//this->str = new char[size] {};
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
+	String(const char* str) :String(strlen(str) + 1)
 	{
-		//this->size = strlen(str) + 1;
-		//this->str = new char[size] {};
 		for (int i = 0; str[i]; i++)this->str[i] = str[i];
 		cout << "Constructor:\t\t" << this << endl;
 	}
-	//The rule of zero - !CopyConstructor, !CopyAssignment и !Destructor;
-	//The rule of three - CopyConstructor, CopyAssignment и Destructor;
-	String(const String& other) :size(other.size), str(new char[size] {})
+	String(const String& other) :String(other.str)
 	{
-		//this->size = other.size;
-		//Deep copy - побитовое копирование:
-		//1) Выделяем новую память:
-		//this->str = new char[size] {};
-		//2) Копируем содержимое этой памяти из другого объекта:
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-	String(String&& other):size(other.size), str(other.str)
+	String(String&& other) :size(other.size), str(other.str)
 	{
-		//Shallow copy:
-		//this->size = other.size;
-		//this->str = other.str;	//shallow copy
-		//MoveConstructor должен работать так, как НЕ должен работать CopyConstrcutor
-		//После копирования удаляемый объект обязательно нужно обнулить:
 		other.str = nullptr;
 		other.size = 0;
 		cout << "MoveConstructor:\t" << this << endl;
@@ -121,14 +104,15 @@ String operator+(const String& left, const String& right)
 	String cat(left.get_size() + right.get_size() - 1);		//но его всегда можно выбвать вот так
 	for (int i = 0; i < left.get_size(); i++)
 		cat[i] = left[i];
-		//cat.get_str()[i] = left.get_str()[i];
+	//cat.get_str()[i] = left.get_str()[i];
 	for (int i = 0; i < right.get_size(); i++)
 		cat[i + left.get_size() - 1] = right[i];
-		//cat.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+	//cat.get_str()[i + left.get_size() - 1] = right.get_str()[i];
 	return cat;
 }
 
 //#define CONSTRUCTORS_CHECK
+//#define OPERATOR_PLUS_CHECK
 
 void main()
 {
@@ -150,6 +134,7 @@ void main()
 	cout << str3 << endl;
 #endif // CONSTRUCTORS_CHECK
 
+#ifdef OPERATOR_PLUS_CHECK
 	String str1 = "Hello";
 	String str2 = "World";
 	str1 = str1;
@@ -159,6 +144,13 @@ void main()
 	String str3;
 	str3 = str1 + str2;
 	cout << str3 << endl;
+#endif // OPERATOR_PLUS_CHECK
+
+	String str1 = "Delegation";
+	cout << "\n-----------------------------------\n";
+	String str2 = str1;
+	cout << "\n-----------------------------------\n";
+	cout << str2 << endl;
 }
 
 /*
